@@ -1,19 +1,22 @@
-name: Maven CI
+name: Maven + Docker CI
 
 on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
 
 jobs:
+
   build:
 
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout source code
         uses: actions/checkout@v4
 
@@ -26,3 +29,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package
+
+      - name: Build Docker image
+        run: docker build -t maven-demo:ci .
