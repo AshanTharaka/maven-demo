@@ -28,3 +28,19 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t maven-demo:${{ github.sha }} .
+
+        
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          docker tag maven-demo:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/maven-demo:latest
+          docker tag maven-demo:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/maven-demo:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/maven-demo:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/maven-demo:${{ github.sha }}
+
