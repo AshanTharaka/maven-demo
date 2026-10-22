@@ -25,3 +25,6 @@ jobs:
 
       - name: Run Maven tests
         run: mvn --batch-mode clean verify
+
+      - name: Build Docker image
+        run: docker build -t maven-demo:${{ github.sha }} .
