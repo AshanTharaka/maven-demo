@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Stage 2: Run the application
-FROM eclipse-temurin:11-jre
+FROM amazoncorretto:11
 
 WORKDIR /app
 
